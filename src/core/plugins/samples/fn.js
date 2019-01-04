@@ -67,6 +67,9 @@ export const sampleFromSchema = (schema, config={}) => {
       if ( props[name] && props[name].writeOnly && !includeWriteOnly ) {
         continue
       }
+      if ( props[name] && (props[name].$$ref || (props[name].items && props[name].items.$$ref)) ) {
+        continue
+      }
       obj[name] = sampleFromSchema(props[name], config)
     }
 
