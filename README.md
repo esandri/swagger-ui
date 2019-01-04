@@ -1,3 +1,66 @@
+You are probably in the wrong project. The main project is [swagger-api/swagger-ui](https://github.com/swagger-api/swagger-ui)
+In this branch I changed the `sampleFromSchema` to skip references in samples generated from the models
+eg
+```js
+"components": {
+  "schemas": {
+    "Group": {
+      "description": "Group of users",
+      "properties": {
+        "group_id": {
+          "type": "string",
+          "description": "unique identifier of the group"
+        },
+        "name": {
+          "type": "string",
+          "description": "the name of the group"
+        },
+        "users": {
+          "type": "array",
+          "items": {
+            "$ref": "#/components/schemas/User"
+          }        
+        }
+      }
+    },
+    "User": {
+      "description": "A user",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "description": "unique identifier of the user"
+        },
+        "name": {
+          "type": "string",
+          "description": "the name of the user"
+        },
+        "group": {
+          "$ref": "#/components/schemas/Group"
+        }
+      }
+    }
+  }
+}
+```
+will generate the following example in responses or in request body section
+for group:
+```js
+{
+  "group_id": "string",
+  "name": "string",
+}
+```
+for user: 
+```js
+{
+  "user_id": "string",
+  "name": "string",
+}
+```
+
+this is useful when you are working on very complex domains
+
+
 # <img src="https://raw.githubusercontent.com/swagger-api/swagger.io/wordpress/images/assets/SWU-logo-clr.png" height="80">
 
 [![NPM version](https://badge.fury.io/js/swagger-ui.svg)](http://badge.fury.io/js/swagger-ui)
